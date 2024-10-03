@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  password  String
+  name      String
+  isOwner   Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  transports Transport[]
+  offers    Offer[]
+  reviews   Review[]
+}
+
+model Transport {
+  id          Int      @id @default(autoincrement())
+  image       String
+  city        String
+  description String
+  status      String
+  pricePerKm  Float
+  ownerId     Int
+  owner       User     @relation(fields: [ownerId], references: [id])
+  offers      Offer[]
+  reviews     Review[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Offer {
+  id            Int      @id @default(autoincrement())
+  date          DateTime
+  fromLocation  String
+  toLocation    String
+  status        String   @default("PENDING")
+  userId        Int
+  user          User     @relation(fields: [userId], references: [id])
+  transportId   Int
+  transport     Transport @relation(fields: [transportId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Review {
+  id          Int      @id @default(autoincrement())
+  rating      Int
+  comment     String
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+  transportId Int
+  transport   Transport @relation(fields: [transportId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
