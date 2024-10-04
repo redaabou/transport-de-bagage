@@ -8,6 +8,14 @@ const prisma = new PrismaClient();
 export const register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { email, password, name, isOwner } = req.body;
+    
+    // Check if user already exists
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+    if (existingUser) {
+      res.status(400).json({ error: 'User already exists' });
+      return;
+    }
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
       data: {
@@ -29,12 +37,12 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
     const { email, password } = req.body;
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
-      res.status(400).json({ error: 'Invalid credentials' });
+      res.status(400).json({ error: 'user not found' });
       return;
     }
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) {
-      res.status(400).json({ error: 'Invalid credentials' });
+      res.status(400).json({ error: 'Invalid password' });
       return;
     }
     const token = jwt.sign(

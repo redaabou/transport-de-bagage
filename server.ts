@@ -1,16 +1,19 @@
 import express from "express";
 import cors from "cors";
+import path from "path";
 import authRoutes from "./src/routes/auth";
 import transportRoutes from "./src/routes/transportRoute";
 import offerRoutes from "./src/routes/offers";
 import reviewRoutes from "./src/routes/reviews";
 import { errorHandler } from "./src/middlewares/errorHandler";
 
-
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+// Serve static files from the 'uploads' directory
+app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/transports", transportRoutes);

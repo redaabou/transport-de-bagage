@@ -12,7 +12,11 @@
     "prisma:studio": "prisma studio",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["transport", "booking", "backend"],
+  "keywords": [
+    "transport",
+    "booking",
+    "backend"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -20,13 +24,16 @@
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "express": "^4.21.0",
-    "jsonwebtoken": "^9.0.2"
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/jsonwebtoken": "^9.0.7",
+    "@types/multer": "^1.4.12",
     "@types/node": "^22.7.4",
     "nodemon": "^3.1.7",
     "prisma": "^5.20.0",

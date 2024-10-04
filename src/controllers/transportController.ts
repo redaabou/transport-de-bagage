@@ -13,7 +13,7 @@ export const createTransport = async (req: Request, res: Response, next: NextFun
         city,
         description,
         status,
-        pricePerKm,
+        pricePerKm: parseFloat(pricePerKm),
         ownerId: userId,
       },
     });
@@ -54,7 +54,14 @@ export const getTransportById = async (req: Request, res: Response, next: NextFu
 export const updateTransport = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { id } = req.params;
-    const { image, city, description, status, pricePerKm } = req.body;
+    const { status } = req.body;
+    let updateData: any = { status };
+
+    if (req.body.image) updateData.image = req.body.image;
+    if (req.body.city) updateData.city = req.body.city;
+    if (req.body.description) updateData.description = req.body.description;
+    if (req.body.status) updateData.status = req.body.status;
+    if (req.body.pricePerKm) updateData.pricePerKm = parseFloat(req.body.pricePerKm);
     const userId = (req as any).user.id;
     const transport = await prisma.transport.findUnique({ where: { id: parseInt(id) } });
     if (!transport) {
@@ -67,7 +74,7 @@ export const updateTransport = async (req: Request, res: Response, next: NextFun
     }
     const updatedTransport = await prisma.transport.update({
       where: { id: parseInt(id) },
-      data: { image, city, description, status, pricePerKm },
+      data: updateData,
     });
     res.json({ message: 'Transport updated successfully', transport: updatedTransport });
   } catch (error) {

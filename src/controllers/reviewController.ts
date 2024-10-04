@@ -33,3 +33,18 @@ export const getReviewsByTransport = async (req: Request, res: Response, next: N
     next(error);
   }
 };
+
+//  update review
+export const updateReview = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const { rating, comment } = req.body;
+    const review = await prisma.review.update({
+      where: { id: parseInt(id) },
+      data: { rating, comment },
+    });
+    res.json(review);
+  } catch (error) {
+    next(error);
+  }
+};
