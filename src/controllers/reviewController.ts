@@ -34,7 +34,7 @@ export const getReviewsByTransport = async (req: Request, res: Response, next: N
   }
 };
 
-//  update review
+
 export const updateReview = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { id } = req.params;
