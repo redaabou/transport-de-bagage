@@ -7,7 +7,6 @@
 - [🚀 Features](#-features)
 - [🐳 Docker Deployment](#-docker-deployment)
 - [📦 Local Development](#-local-development)
-- [🔒 Environment Variables](#-environment-variables)
 - [📝 License](#-license)
 
 ## 🛠 Tech Stack
